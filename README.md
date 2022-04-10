@@ -31,7 +31,7 @@
 - *DBCompare/views.py*: 视图
 - *DBCompare/migrations*: 数据库迁移
 
-2、把创建的应用的路由添加到 *mysite/urls.py* 中
+2、创建 *urls.py* 文件，把创建的应用的路由添加到 *mysite/urls.py* 中
 
 3、非必要步骤，数据库配置：
 
@@ -74,9 +74,175 @@ DATABASES = {
 }
 ```
 
+#### 第三步、项目的模型
 
+1、连接 MySQL 数据库设置: `$ pip install MySQL`，在 *settings.py* 中配置 *DATABASES*
 
+2、创建模型，编辑 *myapp/models.py* 文件
 
+```python
+# myapp/models.py
+
+from django.db import models
+
+# Create your models here.
+class Stu(models.Model):
+    '''自定义USER表对应的Model类'''
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=16)
+    password = models.CharField()
+    email = models.CharField()
+
+    def __str__(self) -> str:
+        return "%d, %s, %s" % (self.id, self.name, self.email)
+    
+    # 自定义对应的表名，默认表名: myapp_stu
+    class Meta:
+        db_table = "stu"
+```
+
+3、在 *settings.py* 中配置 *INSTALLED_APPS*
+
+```python
+# mysite/settings.py
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'myapp.apps.MyappConfig',  # 或者直接写 mysapp
+]
+```
+
+4、使用：
+
+- 第一种方法：`$ python manage.py shell` 交互式
+- 第二种方法：一般在试图 *myapp/views.py* 中使用 
+
+```shell
+$ python manage.py shell
+>> from myapp.models import Stu
+>> mod = Stu.objects
+>> lists = mod.all()  # 获取所有信息
+>> for v in lists:
+...    print(v)
+>> mod.get(id=1)  # 获取指定行的信息
+```
+
+```python
+# myapp/views.py
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from myapp.models import Stu
+
+# Create your views here.
+def index(request):
+    return HttpResponse('My App！')
+
+def abc(request):
+    lists = Stu.objects.all()  # 获取所有信息
+    for v in lists:
+        print(v)
+    print(Stu.objects.get(id=6))
+    return HttpResponse('abc！')
+
+```
+
+#### 第四步、启动网站 admin 管理
+
+1、数据迁移: `$ puthon manage.py migrate`，执行之后会自动创建一些表；然后创建管理员用户: `$ python manage.py createsuperuser`，进入提示操作
+
+```python
+# mysite/settings.py
+
+INSTALLED_APPS = [
+    'django.contrib.admin',  # 管理网站
+    'django.contrib.auth',  # 认证系统
+    'django.contrib.contenttypes',  # 内容类型的框架
+    'django.contrib.sessions',  # 会话框架
+    'django.contrib.messages',  # 消息框架
+    'django.contrib.staticfiles',  # 管理静态文件的框架
+    'myapp.apps.MyappConfig',  # 或者直接写 mysapp
+]
+```
+
+2、启动服务，管理员站点被激活: `$ python manage.py runserver`
+
+3、设置时区和语言，编辑 *mysite/settings.py* 文件
+
+```python
+LANGUAGE_CODE = 'zh-hans'
+
+TIME_ZONE = 'Asia/Shanghai'
+```
+
+4、将自定义的应用程序加入到后台管理，编辑 *myapp.admin.py* 文件
+
+```python
+# myapp.admin.py
+
+from django.contrib import admin
+from myapp.models import Stu
+
+# Register your models here.
+admin.site.register(Stu)
+```
+
+5、更加深入的后台管理设置，编辑 *myapp/models.py* 文件，编辑 *myapp/admin.py* 文件
+
+```python
+# myapp/models.py
+
+from django.db import models
+
+# Create your models here.
+class Stu(models.Model):
+    '''自定义USER表对应的Model类'''
+    id = models.AutoField('Id', primary_key=True)
+    name = models.CharField('Name', max_length=16)
+    password = models.CharField()
+    email = models.CharField('Email')
+
+    def __str__(self) -> str:
+        return "%d, %s, %s" % (self.id, self.name, self.email)
+    
+    # 自定义对应的表名，默认表名: myapp_stu
+    class Meta:
+        db_table = "stu"
+        verbose = '浏览用户信息'
+        verbose_name_plural = '用户信息管理'
+```
+
+```python
+# myapp.admin.py
+
+from django.contrib import admin
+from myapp.models import Stu
+
+# Register your models here.
+
+# Stu模型的管理器（装饰器写法）
+@admin.register(Stu)
+class StuAdmin(admin.ModelAdmin):
+    # 设置要显示在列表中的内容
+    list_display = ('id', 'name', 'email')
+
+    # 设置哪些字段可以点击进入编辑界面
+    list_display_links = ('id', 'name', 'email')
+
+    # 设置每页显示多少条记录，默认是100条
+    list_per_page = 10
+
+    # 设置默认排序字段，负号表示降序排序，-id
+    ordering = ('id',)
+
+    # 设置默认可编辑字段
+    # list_eaitable = ['name', 'email']
+```
 
 
 

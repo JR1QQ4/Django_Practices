@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'myapp.apps.MyappConfig',  # 或者直接写 mysapp
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# 连接 mysql
+# 需要先安装 mysqlclient: $ pip install mysqlclient
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'xe',
+#         'USER': 'a_user',
+#         'PASSWORD': 'a_password',
+#         'HOST': '',
+#         'PORT': '',
+#     }
+# }
 
 # 初始化数据库
 SITE_DB = SiteDB()

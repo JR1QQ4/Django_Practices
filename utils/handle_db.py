@@ -2,7 +2,7 @@ import sqlite3
 
 import os
 
-from utils.handle_path import project_path
+from handle_path import project_path
 
 
 class SiteDB:
@@ -67,13 +67,13 @@ class SiteDB:
 # print("Total number of rows updated :", conn.total_changes)
 
 # if __name__ == '__main__':
-#     site_db_0 = SiteDB(
-#     # cursor = site_db_0.execute("SELECT id, name, PASSWORD, EMAIL  from USERS")
-#     # for row in cursor:
-#     #    print("ID = ", row[0])
-#     #    print("NAME = ", row[1])
-#     #    print("PASSWORD = ", row[2])
-#     #    print("EMAIL = ", row[3])
+#     site_db_0 = SiteDB()
+#     cursor = site_db_0.execute("SELECT id, name, PASSWORD, EMAIL  from USERS")
+#     for row in cursor:
+#        print("ID = ", row[0])
+#        print("NAME = ", row[1])
+#        print("PASSWORD = ", row[2])
+#        print("EMAIL = ", row[3])
 
 #     site_db_1 = SiteDB()
 
