@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 
-from utils.handle_db import SiteDB
+# from utils.handle_db import SiteDB
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-l@ablx=k@go2tct#s=^#snuf)w#(g2i2=dqwlnek*mcdf9!w(l
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # True 的时候运行不起
-DEBUG = False
+# True Admin才会有样式
+DEBUG = True
 
 # 支持远程访问，$ python .\manage.py runserver 0.0.0.0:8000
 ALLOWED_HOSTS = ['*']
@@ -99,8 +100,9 @@ DATABASES = {
 #     }
 # }
 
+# 直接使用 sqlite3 不需要自定义
 # 初始化数据库
-SITE_DB = SiteDB()
+# SITE_DB = SiteDB()
 
 
 
@@ -126,9 +128,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'  # 后台显示中文
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'  # 使用中国时区
 
 USE_I18N = True
 

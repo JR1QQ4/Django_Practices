@@ -76,6 +76,16 @@ DATABASES = {
 
 #### 第三步、项目的模型
 
+0、直接使用 *sqlite3*，[参考文档](https://blog.csdn.net/wzzzj/article/details/112789956)，步骤如下:
+
+- 在 *settings.py* 中配置 *INSTALLED_APPS*
+- 创建模型，编辑 *myapp/models.py* 文件
+- 将自定义的应用程序加入到后台管理，编辑 *myapp.admin.py* 文件
+- 运行命令 `$ python manage.py makemigrations`，将你对 models.py 文件中的改动保存到当前目录中一个叫 migrations 的文件夹中，但还未同步到数据库
+- 运行命令 `$ python manage.py migrate`，将改动同步到数据库
+- 运行命令 `$ python manage.py createsuperuser`，创建Web后台的用户名和密码
+- 启动后台 `$ python manage.py runserver`，打开 *http://127.0.0.1:8000/admin*
+
 1、连接 MySQL 数据库设置: `$ pip install MySQL`，在 *settings.py* 中配置 *DATABASES*
 
 2、创建模型，编辑 *myapp/models.py* 文件

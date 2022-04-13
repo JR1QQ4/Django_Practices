@@ -2,7 +2,7 @@ import sqlite3
 
 import os
 
-from handle_path import project_path
+from utils.handle_path import project_path
 
 
 class SiteDB:
