@@ -14,10 +14,32 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
+
+from demo import views
+from django.urls import re_path
+
+from django.urls import include
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('db_compare/', include('db_compare.urls')),
+#     path('myapp/', include('myapp.urls'))
+# ]
+
+# urlpatterns = [
+#     # path('admin/', admin.site.urls),
+#     path("", views.index),
+#     path("add/", views.add),
+#     path("find/", views.find),
+#     path("find/<int:sid>", views.find),
+#     path("find/<int:sid>/<str:name>", views.find),
+#     path('edit/', views.update),
+#     re_path(r'^fun/(?P<y>[0-9]{4})/(?P<m>[0-9]{2})/$', views.fun),
+#     re_path(r'^ask/([0-9]{4})/$', views.ask),
+# ]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('db_compare/', include('db_compare.urls')),
-    path('myapp/', include('myapp.urls'))
+    # path('admin/', admin.site.urls),
+    path('', include('demo.urls')),
 ]

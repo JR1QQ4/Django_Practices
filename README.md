@@ -254,10 +254,90 @@ class StuAdmin(admin.ModelAdmin):
     # list_eaitable = ['name', 'email']
 ```
 
+### URL路由配置
+
+#### Django框架是如何处理请求
+
+1. 首先确定要使用的根 URLconf 模块，通过 ROOT_URLCONF 来设置，在 settings.py 文件中。但是如果传入 HttpRequest 对象具有 urlconf 属性
+（有中间件设置）， 则其值将用于替换 ROOT\_URLCONF 设置
+2. Django 加载 Python 模块并查找该变量 urlpatterns，它是 django.urls.path() 和（或） django.urls.re_path() 实例的序列(sequence)
+3. Django 按顺序运行每个 URL 模式，并在匹配所请求的 URL 的第一个 URL 中停止
+4. 一旦正则表达式匹配，Django 将导入并调用给定的视图，这是一个简单的 Python函数（或基于类的试图）。该试图会获得如下参数：
+   - 一个 HttpRequest 实例
+   - 如果匹配的正则表达式没有返回任何命名组，那么来自正则表达式的匹配将作为位置参数提供
+   - 关键字参数由正则表达式匹配的任何命名组组成，由可选 kwargs 参数中指定的任何参数覆盖。django.url.path(\)、django.urls.re_path(\)
+5. 如果没有正则表达式匹配，或者在此过程中的任何一点出现异常，Django 将调用适当的错误处理视图
 
 
+#### URLconf 配置
 
+以下是一个 URLconf 实例：
+```python
+from django.urls import path
+from . import views
 
+# <> 用于从 URL 中捕获一个值，称为路径转换器，可以有的类型：str、int、slug、uuid、path
+urlpatterns = [
+    path('article/2003/', views.special_case_2003),
+    path('articles/<int:year>', views.year_archive),
+    path('articles/<int:year>/<int:month>/', views.month_archive),
+    path('articles/<int:year>/<int:month>/<slug:slug>', views.article_detail)
+]
+```
+
+通过浏览器访问服务：
+```text
+通过浏览器访问服务 127.0.0.1:8000/abc  -->  root url(根路由)  -->  加载子路由(myweb/urls.py)
+    -->  正则匹配访问的路径(path)  -->  试图函数(views.index)
+    --> views.py index() 相应内容
+```
+
+使用正则表达式：
+```python
+from django.urls import path,re_path
+from . import views
+
+urlpatterns = [
+    path('article/2003/', views.special_case_2003),
+    re_path(r'^articles/(?P<year>[0-9]{4})/$', views.year_archive),
+    re_path(r'^articles/([0-9]{4})/([0-9]{2})/$', views.month_archive),
+    re_path(r'^articles/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<slug>[\w+])/$', views.article_detail)
+]
+```
+
+#### 错误处理
+
+关于 404 错误：
+
+- 在模板目录中创建一个 404.html 的页面
+- 在配置文件中 `settings.py` 配置 `DEBUG=False`
+- 在配置文件中 `settings.py` 配置 `TEMPLATES = [{'DIRS': [os.path.join(BASE_DIR, 'templates')]}]`
+- 同事需要在项目的根目录下创建文件夹 templates，并且在此目录下创建一个 404.html 文件
+- 在出现 404 的情况时，自动寻找 404 页面
+- 也可以在视图函数中手动报出 404 错误，带提示信息
+
+在视图函数中也可以指定返回一个 404：
+```text
+注意 Http404 需要在 django.http 的模块中引入
+raise Http404('404 Not Found.')
+```
+
+在模板中 404.HTML：
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <main>
+        <h2>404 not found</h2>
+        <h3>{{ exception }}}</h3>
+    </main>
+</body>
+</html>
+```
 
 
 
