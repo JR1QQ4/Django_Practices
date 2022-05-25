@@ -39,7 +39,12 @@ from django.urls import include
 #     re_path(r'^ask/([0-9]{4})/$', views.ask),
 # ]
 
+# urlpatterns = [
+#     # path('admin/', admin.site.urls),
+#     path('', include('demo.urls')),
+# ]
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', include('demo.urls')),
+    path('', include('demo2.urls')),
 ]

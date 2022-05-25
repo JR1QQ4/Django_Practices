@@ -367,17 +367,142 @@ Model 的开发流程：
 - Django 会为表增加自动增长的主键列，每个模型只能有一个主键列
 - 属性命名限制：不能时 Python 的保留关键字；由于 Django 的查询方式，不允许使用连续的下划线
 
+Model 模型的实例：
+
+- 模型实例对象是通过 objects 属性获取，即 Django 为模型类提供的管理器
+  - objects：是 Manager 类型的对象，用于与数据库进行交互
+- 实例的方法：
+  - `__str__(self)`：重写 object 方法，此方法在将对象转换成字符串时会被调用
+  - `save()`：将模型对象保存到数据表中
+  - `delete()`：将模型对象从数据表中删除
+
+字段类型：
+
+- AutoField
+- BooleanField
+- NullBooleanField
+- CharField
+- TextField
+- IntegerField
+- DecimalField
+- FloatField
+- DateField
+- TimeField
+- DateTimeField
+- FileField
+- ImageField
+
+#### 开发前的配置
+
+1、创建数据库和表（若是执行表迁移，可跳过下面操作）
+
+- 进入 MySQL 数据库创建数据库：mytest
+- 进入数据库创建数据表：myapp_users，并添加数据
+
+```mysql
+CREATE TABLE `myapp_users` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(32) NOT NULL ,
+    `age` tinyint(3) unsigned NOT NULL DEFAULT `20`,
+    `phone` varchar(16) DEFAULT NULL,
+    `addtime` datetime(6) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+```
+
+2、创建项目 myweb 和应用 demo2
+
+```text
+$ django-admin startproject mysite
+$ python manage.py startapp demo2
+$ mkdir templates
+$ mkdir templates/demo2
+```
+
+3、执行数据库连接配置，网站配置：
+
+- 编辑 settings.py 文件，配置数据库连接
+
+```text
+ALLOWED_HOSTS = ['*']
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'demo2'
+]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [pathlib.Path.joinpath(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'root',
+        'NAME': 'demo2',  # 数据库的名称
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    },
+}
+```
+
+#### 开发流程
+
+1、在 models.py 中定义模型类，要求继承自 models.Model
+
+```python
+from django.db import models
+from datetime import datetime
 
 
+# Create your models here.
+class Users(models.Model):
+    # id = models.AutoField(primary_key=True)  # 主键可省略不屑
+    name = models.CharField(max_length=32)
+    age = models.IntegerField(default=20)
+    phone = models.CharField(max_length=16)
+    addtime = models.DateTimeField(default=datetime.now)
 
 
+# class Meta:
+#     db_table = "demo2_user"  # 指定表名，默认就是app的名称+'_'+小写类名
+```
 
+2、把应用加入到 settings.py 文件的 installed_app 项
 
+```python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'demo2'
+]
+```
 
+3、生成迁移文件：`$ python manage.py makemigrations`，多了一个文件 demo2\migrations\0001_initial.py
 
-
-
-
+4、执行迁移：`$ python manage.py migrate`
 
 
 

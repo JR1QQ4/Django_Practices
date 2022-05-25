@@ -43,14 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp.apps.MyappConfig',  # 或者直接写 mysapp
+    # 'myapp.apps.MyappConfig',  # 或者直接写 mysapp
+    'demo2',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  # csrf 令牌
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -131,8 +132,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'zh-hans'  # 后台显示中文
 
-# TIME_ZONE = 'UTC'
-TIME_ZONE = 'Asia/Shanghai'  # 使用中国时区
+TIME_ZONE = 'UTC'
+# TIME_ZONE = 'Asia/Shanghai'  # 使用中国时区
 
 USE_I18N = True
 
