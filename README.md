@@ -504,6 +504,13 @@ INSTALLED_APPS = [
 
 4、执行迁移：`$ python manage.py migrate`
 
+### Django 的 View 视图层
+
+
+
+
+
+
 
 
 
