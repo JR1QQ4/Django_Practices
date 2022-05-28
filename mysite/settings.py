@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
+# 使用数据库时需要
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -43,8 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'myapp.apps.MyappConfig',  # 或者直接写 mysapp
+    'myapp.apps.MyappConfig',  # 或者直接写 mysapp
     'demo2',
+    'demo3'
 ]
 
 MIDDLEWARE = [
