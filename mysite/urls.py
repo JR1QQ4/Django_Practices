@@ -44,7 +44,12 @@ from django.urls import include
 #     path('', include('demo.urls')),
 # ]
 
+# urlpatterns = [
+#     # path('admin/', admin.site.urls),
+#     path('', include('demo2.urls')),
+# ]
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', include('demo2.urls')),
+    path('', include('demo3.urls')),
 ]
