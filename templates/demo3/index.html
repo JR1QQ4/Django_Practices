@@ -5,15 +5,18 @@
     <title>首页</title>
     <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css">
 </head>
-<body class="bg-green-500">
+<body class="bg-white-500">
 <div class="container mx-auto px-4 w-10/12">
     <h2 class="text-5xl text-green-900">首页</h2>
-    <ul>
-        <li><a href="">1.一个简单的视图</a></li>
-        <li><a href=""></a></li>
-        <li><a href=""></a></li>
-        <li><a href=""></a></li>
-        <li><a href=""></a></li>
+    <ul class="my-4">
+        <li><a class="underline text-blue-300 hover:text-blue-600" href="{% url 'resp01' %}">1.一个简单的视图</a></li>
+        <li><a class="underline text-blue-300 hover:text-blue-600" href="{% url 'resp02' %}">2.返回一个错误</a></li>
+        <li><a class="underline text-blue-300 hover:text-blue-600" href="{% url 'resp03' %}">3.重定向</a></li>
+        <li><a class="underline text-blue-300 hover:text-blue-600" href="{% url 'resp04' %}">4.基于类的视图</a></li>
+        <li><a class="underline text-blue-300 hover:text-blue-600" href="{% url 'resp05' %}">5.响应json数据</a></li>
+        <li><a class="underline text-blue-300 hover:text-blue-600" href="{% url 'resp06' %}">6.设置Cookie</a></li>
+        <li><a class="underline text-blue-300 hover:text-blue-600" href="{% url 'resp07' %}?id=100&name=zhangsan&age=22">7.request请求对象</a></li>
+        <li><a class="underline text-blue-300 hover:text-blue-600" href=""></a></li>
     </ul>
 </div>
 </body>
