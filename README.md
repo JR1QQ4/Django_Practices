@@ -506,6 +506,13 @@ INSTALLED_APPS = [
 
 ### Django 的 View 视图层
 
+见项目 demo3
+
+### Django 的模板层
+
+
+
+
 
 
 
